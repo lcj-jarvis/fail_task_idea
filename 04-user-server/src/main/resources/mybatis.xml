@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <properties resource="jdbc.properties"/>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--开启驼峰命名映射-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--加入PageHelper的插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor" />
+    </plugins>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--
+       databaseIdProvider：支持多数据库的厂商
+        type="DB_VENDOR":VendorDatabaseIdProvider
+        作用就是得到数据库厂商的标识【驱动getDatabaseProductName()】
+            mybatis就能使用Mysql、Oracle、SQL Server等数据库
+
+           【注意】还要在environments标签里，配置不同数据库的连接才行
+    -->
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="Mysql" value="mysql"/>
+        <property name="Oracle" value="oracle"/>
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="DB2" value="db2"/>
+    </databaseIdProvider>
+
+    <mappers>
+       <package name="com.mrlu.server.dao"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrlu.server.dao.UserDao">
+
+    <select id="listsUserDo" resultType="com.mrlu.server.bean.UserDO">
+       select id, name, age, email,department_name from task_user
+    </select>
+
+    <insert id="insertUserDo">
+       insert into task_user(name, age, email, department_name, gmt_create, gmt_modified)
+       values(#{name}, #{age}, #{email}, #{departmentName}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <select id="getUserDoById" resultType="com.mrlu.server.bean.UserDO">
+       select id, name, age, email,department_name from task_user where id = #{id}
+    </select>
+
+    <select id="getUserDoByName" resultType="com.mrlu.server.bean.UserDO">
+        select id, name, age, email,department_name from task_user where name = #{name}
+    </select>
+
+    <update id="updateUserById">
+        update task_user set name = #{name}, age = #{age}, email = #{email},
+                             department_name = #{departmentName},gmt_modified = #{gmtModified}
+                             where id = #{id}
+    </update>
+
+    <update id="updateUserByName">
+        update task_user set name = #{name}, age = #{age}, email = #{email},
+                             department_name = #{departmentName},gmt_modified = #{gmtModified}
+                             where name = #{name}
+    </update>
+
+</mapper>
