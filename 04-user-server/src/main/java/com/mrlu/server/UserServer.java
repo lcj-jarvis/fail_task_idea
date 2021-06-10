@@ -48,7 +48,7 @@ public class UserServer {
     public static void main(String[] args) {
             try {
                 ServerSocket serverSocket = new ServerSocket(8899);
-                logger.standardRecord(Log.LOG_STANDARD,"启动服务端...");
+                logger.standardRecord(Log.LOG_STANDARD,"启动服务端完成...");
                 Socket socket;
                 while (true) {
                     socket = serverSocket.accept();
