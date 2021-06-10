@@ -138,13 +138,13 @@ public class UserServer {
             out = new ObjectOutputStream(client.getOutputStream());
             UserDO userDO = (UserDO) map.get("userDO");
 
-            //判断远程传输要更新的用户是否为空，以及该用户是否存在。
-            boolean exists = Objects.nonNull(userDO) && (cache.containsKey(userDO.getName()));
-            if (!exists) {
+            //判断远程传输要更新的用户是否为空
+            if (Objects.isNull(userDO)) {
                 Integer failureCode = 100;
                 map.put("responseCode", failureCode);
                 out.writeObject(map);
                 out.flush();
+                logger.debugRecord(Log.LOG_DUBUG, "客户端传输的用户为null");
                 return;
             }
 
@@ -158,14 +158,13 @@ public class UserServer {
 
             //设置修改的时间
             userDO.setGmtModified(LocalDateTime.now());
-            if (userDO.getId() != null) {
-                userDao.updateUserById(userDO);
-                userDO = userDao.getUserDoById(userDO.getId());
-            } else {
-                userDao.updateUserByName(userDO);
-                userDO = userDao.getUserDoByName(userDO.getName());
+            if (userDO.getId() == null) {
+                logger.debugRecord(Log.LOG_DUBUG, "更新的用户" + userDO + "的id为null");
+                return;
             }
+            userDao.updateUserById(userDO);
             sqlSession.commit();
+            userDO = userDao.getUserDoById(userDO.getId());
             logger.debugRecord(Log.LOG_DUBUG, "更新后的用户："+userDO);
 
             //更新缓存
