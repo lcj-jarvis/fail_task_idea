@@ -22,7 +22,7 @@ import java.util.Objects;
 import java.util.concurrent.*;
 
 /**
- * @author 简单de快乐（陆朝基）
+ * @author 简单de快乐
  * @date 2021-06-07 12:35
  */
 public class UserServer {
